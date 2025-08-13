@@ -1,4 +1,5 @@
-# Snakemake workflow for **Bulk-based hypothesis weighing to increase power in single-cell differential expression analysis**
+# Snakemake workflow for [**Bulk-based hypothesis weighing to increase power in single-cell differential expression analysis**]([https://example.com](https://www.biorxiv.org/content/10.1101/2025.04.15.648932v1.full)
+
 
 ### setup
 

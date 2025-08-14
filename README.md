@@ -18,7 +18,18 @@
 - `<x>` denotes a wildcard, namely: `bin`, `cor`rection, `loc`al or global,  
   `sim`ulation, `sta`tistic
 
-- `00-get_sim.R`
-  - **out:** simulated count matrix, `sim_dat+"00-raw/{sim}.rds"`,<br>
-   simulated ground truth DE genes: `"sim_dat+"00-truth/{sim}.rds"`
+- `00-get_sim.R` 
+  - **out:** simulated count matrix, `00-raw/{sim}.rds"`,<br>
+   simulated ground truth DE genes: `"00-truth/{sim}.rds"`
   - two different simulation tools: `muscat`, `splatter`
+
+- `01-bulkDEA.R` 
+  - **in:** `00-raw/{sim}.rds`
+  - **out:** bulk-level differential expression analysis `bulkDEA/{sim}.rds`
+  - `edgeR`-based DEA
+
+- `01-pbDEA.R`
+  - **in:** `00-raw/{sim}.rds`
+  - **out:** bulk-level differential expression analysis `bulkDEA/{sim}.rds`
+  - perform pseudobulk-level differential state analysis
+  - source different number of random combination and sample size 

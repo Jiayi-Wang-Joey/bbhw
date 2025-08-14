@@ -15,7 +15,7 @@ fun <- \() {
                   group=c(0.5,0.5))
     
     sim <- bplapply(list(c(0.2,0), c(0,0.2)), 
-                    BPPARAM=MulticoreParam(2 , RNGseed=123), \(x){
+                    BPPARAM=MulticoreParam(2, RNGseed=123), \(x){
         simData(ref, nc=16000, ns=8, nk=2, probs=probs, p_type=0.2, force=TRUE,
                 dd=TRUE, p_dd=c(0.80,0,0.2,0,0,0), paired=TRUE, rel_lfc=x)
     })

@@ -65,10 +65,20 @@ for val in VAL:
 # SETUP ========================================================================
 rule all: 
     input:
-        #"session_info.txt",
+        "session_info.txt",
         [x for x in sim_res.values()], #plt,
         #[x for x in dat_res.values()], #qlt
 
+        "session_info.txt"
+        
+rule session_info:
+    priority: 100
+    input:  "code/10-session_info.R"
+    output: "session_info.txt"
+    log:    "logs/session_info.Rout"
+    shell:  '''
+    {R} CMD BATCH --no-restore --no-save\
+    "--args {output}" {input} {log}'''
 
 # SIMULATION ===================================================================
 rule get_sim:

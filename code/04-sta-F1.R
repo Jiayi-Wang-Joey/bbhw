@@ -2,7 +2,6 @@ suppressPackageStartupMessages({
     library(data.table)
 })
 fun <- \(res, truth, th) {
-    
     getThStats <- function(ssres, truth, th=0.1, scores=NULL){
         m <- dplyr::bind_rows(ssres, .id="seed")
         if(is.null(scores))

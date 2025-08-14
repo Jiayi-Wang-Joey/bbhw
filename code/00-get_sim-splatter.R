@@ -10,7 +10,7 @@ set.seed(seed <- 20250717)
 
 fun <- \() {
     
-    ss <- c(1.5, 1.5, 0.3, 0.3, 0.8, 0)
+    ss <- c(1.2, 1.2, 0.5, 0.5, 0.8, 0)
     ts <- rep(1, 6)
     ci <- c("A1","A2","B1", "B2", "C", "D")
     bcs <- c(200,100,200,100,100,200)
@@ -24,18 +24,18 @@ fun <- \() {
             de.facLoc=t,
             de.prob=0.1,
             de.facScale=t,
-            cde.prob=0.2,
+            cde.prob=0.1,
             cde.facLoc=s,
             cde.facScale=s,
             group.prob=1,
             batchCells=bc,
             bcv.common=0.3,
-            similarity.scale = 1.5,
+            similarity.scale = 1,
             condition.prob=c(0.5, 0.5)
         )
         
         vcf <- mockVCF(n.samples=30, seed=seed)
-        gff <- mockGFF(n.genes=5e3, seed=seed)
+        gff <- mockGFF(n.genes=6e3, seed=seed)
         
         x <- splatPopSimulate(
             params=p, vcf=vcf, gff=gff,
@@ -90,13 +90,6 @@ fun <- \() {
     for (. in names(colData(x)))
         x[[.]] <- factor(x[[.]])
     
-    # store gene/cell identifiers
-    # .f <- \(x, .) {
-    #     switch(., row={lab="gene"; dim=nrow(x)}, col={lab="cell"; dim=ncol(x)})
-    #     sprintf("%s%s", lab, formatC(x=seq_len(dim), width=nchar(dim), flag=0))
-    # }
-    # rowData(x)$gene_id <- rownames(x) <- .f(x, "row")
-    #colData(x)$cell_id <- colnames(x) <- .f(x, "col")
     
     y <- counts(x)
     gs <- rowSums(y > 1) >= 10

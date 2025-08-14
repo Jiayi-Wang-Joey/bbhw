@@ -2,6 +2,7 @@
 
 fun <- \(x) {
     pb <- aggregateData(x)
+    set.seed(1234)
     res <- bplapply(1:12, 
                       BPPARAM=MulticoreParam(6, RNGseed=1234, progress=FALSE), 
                       \(s){

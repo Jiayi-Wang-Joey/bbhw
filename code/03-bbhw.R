@@ -17,7 +17,6 @@ loc <- ifelse(wcs$loc=="loc", TRUE, FALSE)
 bin <- wcs$bin
 cor <- wcs$cor
 
-set.seed(20250813)
 lst <- lapply(pbDEAs, \(pbDEA) {
     pbDEA <- pbDEA[,c("celltype", "gene", "PValue", "logFC", "FDR")]
     pbDEA$FDR.global <- p.adjust(pbDEA$PValue, method="fdr")

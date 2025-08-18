@@ -2,3 +2,7 @@ data/sim/**
 outs/**
 .snakemake/**
 logs/**
+data/**
+.R*
+.DS_Store
+code/arch

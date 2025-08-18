@@ -25,22 +25,15 @@ dat = expand(dat_dat+"00-raw/{dat}.rds", dat=DAT)
 sim = expand(sim_dat+"00-raw/{sim}.rds", sim=SIM)
 truth = expand(sim_dat+"00-truth/{sim}.rds", sim=SIM)
 bulkDEA = expand(sim_out + "bulkDEA/{sim}.rds", sim=SIM)
-pbDEA = expand(sim_out + "pbDEA/splatter,{size}.rds", sim=SIM, size=SIZE) + [sim_out + "pbDEA/muscat_LPS,12_2v2.rds"]
+pbDEA = expand(sim_out + "pbDEA/{sim},{size}.rds", sim=SIM, size=SIZE)
 
-bbhw = expand(sim_out + "bbhw/splatter,{size},{bin},{cor},{loc}.rds",
-              sim=SIM, size=SIZE, bin=BIN, cor=COR, loc=LOC) \
-     + expand(sim_out + "bbhw/muscat_LPS,12_2v2,{bin},{cor},{loc}.rds",
-              bin=BIN, cor=COR, loc=LOC)
+bbhw = expand(sim_out + "bbhw/{sim},{size},{bin},{cor},{loc}.rds",
+              sim=SIM, size=SIZE, bin=BIN, cor=COR, loc=LOC) 
 
-sta = (
-    expand(sim_out + "sta/{sta},splatter,{size},{bin},{cor},{loc}.rds",
-           sta=STA, sim=["splatter"], size=SIZE,
+sta = expand(sim_out + "sta/{sta},{sim},{size},{bin},{cor},{loc}.rds",
+           sta=STA, sim=SIM, size=SIZE,
            bin=BIN, cor=COR, loc=LOC)
-    +
-    expand(sim_out + "sta/{sta},muscat_LPS,12_2v2,{bin},{cor},{loc}.rds",
-           sta=STA, sim=["muscat_LPS"],
-           bin=BIN, cor=COR, loc=LOC)
-)
+
 
 
 

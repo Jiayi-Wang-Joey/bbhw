@@ -35,3 +35,7 @@ fun <- \(res, truth, th) {
     ss <- getThStats(res, truth, th)
     data.frame(ss, threshold=th)
 }
+ss <- lapply(1:length(res), \(i) {
+    ssres <- list(res[[i]])
+    getThStats(ss)
+})

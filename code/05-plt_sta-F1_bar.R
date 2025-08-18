@@ -8,9 +8,11 @@ suppressPackageStartupMessages({
 res <- lapply(args[[1]], readRDS)
 df <- do.call(rbind,res)
 setDT(df)
-df <- df[threshold==0.05 & size!="12_2v2" & sim=="splatter",]
+df <- df[threshold==0.05  & sim=="muscat_LPS",]
 df <- df[!grepl("raw|^FDR$", df$method),]
-d <- unique(df[,.(method, celltype, TP, FP, calledSig, F1, variable, value, size)])
+d <- unique(df[,.(method, celltype, TP, FP, 
+                  calledSig, F1, variable, 
+                  value, size, bin, loc, cor)])
 renameScores <- function(st, rmLoc=FALSE, rmRaw=TRUE, rmSig=FALSE){
     if(is.data.frame(st)){
         if(!is.null(st$score))
@@ -32,8 +34,16 @@ renameScores <- function(st, rmLoc=FALSE, rmRaw=TRUE, rmSig=FALSE){
 d$method <- renameScores(gsub("padj\\.", "", d$method))
 wPrior <- ifelse(grepl("^FDR\\.glb$|^FDR\\.loc$",d$method), "no prior", 
                  "using bulk prior")
-d <- d[celltype!="D" & method %in% c("FDR.loc", "PAS.LSL.loc", "sig.IHW.glb")]
+
+d <- d[variable!="precision"]
 d[,size:=factor(size)]
-ggplot(d, aes(method, value, fill = size)) +
-    geom_bar(stat = "identity", position = position_dodge(width = 0.8)) +
-    facet_grid(variable~celltype)
+ggplot(d, aes(x = size, y = value, 
+              group = method, col=method)) +
+    geom_line() + 
+    geom_point() +
+    facet_grid2(variable ~ celltype, scales = "free", independent = "y") +
+    scale_color_brewer(palette = "Paired") +
+    theme_bw() +
+    theme(panel.grid = element_blank())
+
+

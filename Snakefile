@@ -8,12 +8,12 @@ R = config["R"]
 DAT = glob_wildcards("code/00-get_dat-{x}.R").x
 SIM = glob_wildcards("code/00-get_sim-{x}.R").x
 SIZE = glob_wildcards("code/02-pbDEA-{x}.R").x
-
+STA = glob_wildcards("code/04-sta-{x}.R").x
 BIN = ["PAS","combined","asNA","sig"]
 COR = ["gBH.LSL","binwise","IHW","gBH.TST"]
 LOC = ["loc", "glb"]
 
-STA = ["F1"]
+#STA = ["F1", "medianF1"]
 
 
 
@@ -52,16 +52,13 @@ VAL = sim_res.keys()
 
 plt = []
 for val in VAL:
-    x = glob_wildcards("code/plt-"+val+"_{x}.R").x
+    x = glob_wildcards("code/05-plt_"+val+"-{x}.R").x
     plt += expand("plts/{val}-{plt}.pdf", val=val, plt=x)
 
 # SETUP ========================================================================
 rule all: 
     input:
-        "session_info.txt",
-        [x for x in sim_res.values()], #plt,
-        #[x for x in dat_res.values()], #qlt
-
+        [x for x in sim_res.values()], plt,
         "session_info.txt"
         
 rule session_info:
@@ -143,13 +140,13 @@ rule sim_sta:
         fun={input[1]} res={input.bbhw} truth={input.truth} sta={output[0]}" {input[0]} {log}'''  
 
 ############### Visualization #################
-# for val in VAL:
-#     rule:
-#         priority: 90
-#         input:  expand("code/plt-{val}_{{plt}}.R", val=val), x=res[val]
-#         params: lambda wc, input: ";".join(input.x)
-#         output: expand("plts/{val}-{{plt}}.pdf", val=val)
-#         log:    expand("logs/plt_{val}-{{plt}}.Rout", val=val)
-#         shell:  '''
-#             {R} CMD BATCH --no-restore --no-save "--args\
-#             {params} {output[0]}" {input[0]} {log}'''
+for val in VAL:
+    rule:
+        priority: 90
+        input:  expand("code/05-plt_{val}-{{plt}}.R", val=val), x=sim_res[val]
+        params: lambda wc, input: ";".join(input.x)
+        output: expand("plts/{val}-{{plt}}.pdf", val=val)
+        log:    expand("logs/plt_{val}-{{plt}}.Rout", val=val)
+        shell:  '''
+            {R} CMD BATCH --no-restore --no-save "--args\
+            {params} {output[0]}" {input[0]} {log}'''

@@ -1,4 +1,7 @@
 data/sim/**
+!data/.gitkeep
+!outs/.gitkeep
+!plts/.gitkeep
 outs/**
 .snakemake/**
 logs/**
@@ -6,3 +9,7 @@ data/**
 .R*
 .DS_Store
 code/arch
+plts/**
+*pdf
+*svg
+data/ref/arch

@@ -2,7 +2,7 @@ fun <- \(x) {
     pb <- aggregateData(x)
     set.seed(1234)
     res <- bplapply(1:5, 
-                      BPPARAM=MulticoreParam(3, RNGseed=1234, progress=FALSE), 
+                      BPPARAM=MulticoreParam(3, RNGseed=123, progress=FALSE), 
                       \(s){
         sw <- c(sample(which(pb$group_id=="A"),2),sample(which(pb$group_id=="B"),2))
         pb <- pb[,sw]

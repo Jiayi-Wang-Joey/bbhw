@@ -41,9 +41,9 @@
 
 
 - `04-sta.R`
-  - **in:**: "bbhw/{sim},{size},{bin},{cor},{loc}.rds", "data/sim/00-truth/{sim}.rds"
-  - **out:**: "sta/{sta},{sim},{size},{bin},{cor},{loc}.rds"
+  - **in:**: `bbhw/{sim},{size},{bin},{cor},{loc}.rds`, `data/sim/00-truth/{sim}.rds`
+  - **out:**: `sta/{sta},{sim},{size},{bin},{cor},{loc}.rds`
   - compute precision/recall/F1 scores
-  - source method from on of 04-sta-<sta>.R, but in this case we computed all scores in one function `04-sta-metrics.R`
+  - source method from on of `04-sta-<sta>.R`, but in this case we computed all scores in one function `04-sta-metrics.R`
 
 

@@ -36,7 +36,7 @@
 
 - `03-bbhw.R`
   - **in:**: `00-raw/{sim}.rds`, `outs/bulkDEA/{sim}.rds`, `outs/pbDEA/{sim},{size}.rds`
-  - **out:**:  "outs/bbhw/{sim},{size},{bin},{cor},{loc}.rds"
+  - **out:**:  `outs/bbhw/{sim},{size},{bin},{cor},{loc}.rds`
   - perform bulk-based hypothesis weighing with different `bin` methods and `cor`rection methods with global or `loc`al coorrection
 
 

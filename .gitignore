@@ -13,3 +13,4 @@ plts/**
 *pdf
 *svg
 data/ref/arch
+data/ref/*.rds

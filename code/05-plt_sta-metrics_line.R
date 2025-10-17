@@ -61,6 +61,9 @@ df <- df[!grepl("raw|^FDR$", df$method),]
     )
     
     d <- d[method %in% c("FDR.loc", "PAS.LSL.loc", "sig.LSL.loc", "asNA.LSL.loc")]
+    d[method=="FDR.loc", method:="FDR.loc (no prior)"]
+    d[,method:=factor(method, levels = c("FDR.loc (no prior)", "PAS.LSL.loc", 
+                                         "sig.LSL.loc", "asNA.LSL.loc"))]
     n <- length(unique(d$method))
     ggplot(d, aes(x = size, y = value, 
                   group = method, col=method)) +

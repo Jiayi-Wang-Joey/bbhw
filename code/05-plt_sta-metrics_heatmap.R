@@ -53,30 +53,40 @@ df <- df[!grepl("raw|^FDR$", df$method),]
     
     mo <- row.names(m)[order(rowMeans(m, na.rm=TRUE) + 
                                  matrixStats::rowMedians(m, na.rm=TRUE))]
-    wPrior <- ifelse(grepl("^FDR\\.glb$|^FDR\\.loc$",mo), "no prior", "using bulk prior")
+    wPrior <- ifelse(grepl("^FDR\\.glb$|^FDR\\.loc$", mo), "no prior", "using bulk prior")
     cols <- setNames(list(viridis::magma(100), viridis::inferno(100), viridis::viridis(100)),
                      names(ml))
-    hl <- lapply(names(ml), FUN=function(x){
-        m <- ml[[x]][mo,]
-        if (min(m, na.rm=TRUE) == max(m, na.rm=TRUE)) {
-            col_fun <- function(z) rep(cols[[x]][100], length(z))
+    
+    hl <- lapply(names(ml), function(x) {
+        m <- ml[[x]][mo, ]
+        if (grepl("Precision", x, ignore.case = TRUE)) {
+            col_fun <- circlize::colorRamp2(seq(0, 1, length.out=100), cols[[x]])
         } else {
-            col_fun <- circlize::colorRamp2(
-                breaks = seq(min(m, na.rm=TRUE), max(m, na.rm=TRUE), length.out=100),
-                colors = cols[[x]]
-            )
+            if (min(m, na.rm=TRUE) == max(m, na.rm=TRUE)) {
+                col_fun <- circlize::colorRamp2(seq(0, 1, length.out=100), cols[[x]])
+            } else {
+                col_fun <- circlize::colorRamp2(
+                    breaks = seq(min(m, na.rm=TRUE), max(m, na.rm=TRUE), length.out=100),
+                    colors = cols[[x]]
+                )
+            }
         }
-        
+        rownames(m) <- ifelse(
+            rownames(m) %in% c("FDR.glb", "FDR.loc"),
+            paste0(rownames(m), " (no prior)"),
+            rownames(m)
+        )
         Heatmap(
-            m, name=x,
+            m, name = x,
             cluster_columns = FALSE, cluster_rows = FALSE,
-            col = col_fun,               
+            col = col_fun,
             column_title = x,
             column_names_gp = gpar(fontsize=9),
             row_split = wPrior,
             row_names_gp = gpar(fontsize=9)
         )
     })
+    
     
     return(draw(Reduce("+", hl), merge=TRUE))
 }
